@@ -1,0 +1,20 @@
+{application, xiaomi_push,
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { xiaomi_push_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    lager,
+    jiffy,
+    hackney,
+    eutil
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.
