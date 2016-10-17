@@ -168,8 +168,6 @@ topic_pass_through(AppSecret, PkgName, Topic, Payload) ->
 
 
 send(AppSecret, URL, MsgMaps) ->
-    ?TRACE_VAR(URL),
-    ?TRACE_VAR(MsgMaps),
     Headers = gen_headers(AppSecret),
     send_for_headers(Headers, URL, MsgMaps).
 
