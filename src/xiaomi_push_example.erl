@@ -48,14 +48,14 @@ topic_message() ->
                 <<"pass_through">> => 0,
                 <<"restricted_package_name">> => <<"com.ligo.hisir20">>,
                 <<"title">> => <<84,105,116,108,101,230,160,135,233,162,152>>,
-                <<"topic">> => <<"tag1">>},
+                <<"topic">> => <<"topic1">>},
     xiaomi_push:topic_message(MsgMaps).
 
 topic_notification() ->
-    xiaomi_push:topic_notification("tag1", ?TITLE, ?DESC).
+    xiaomi_push:topic_notification("topic1", ?TITLE, ?DESC).
 
 topic_pass_through() ->
-    xiaomi_push:topic_pass_through("tag1", ?PAYLOAD).
+    xiaomi_push:topic_pass_through("topic1", ?PAYLOAD).
 
 regid_messages() ->
     {ok, PkgName} = application:get_env(xiaomi_push, pkg_name),
@@ -67,3 +67,29 @@ regid_messages() ->
                 },
     Messages = [#{<<"target">> => list_to_binary(?REGID), <<"message">> => Message1}],
     xiaomi_push:regid_messages(Messages).
+
+regid_subscribe() ->
+    xiaomi_push:regid_subscribe(?REGID, "topic1").
+
+regid_unsubscribe() ->
+    xiaomi_push:regid_unsubscribe(?REGID, "topic1").
+
+message_status() ->
+    xiaomi_push:message_status("20161016", "20161018").
+
+trace_status() ->
+	xiaomi_push:trace_status("slm43b99476776547639jH").
+
+fetch_invalid_regids() ->
+    xiaomi_push:fetch_invalid_regids().
+
+all_topic() ->
+    xiaomi_push:all_topic(?REGID).
+
+all_topic2() ->
+    {ok, AppSecret} = application:get_env(xiaomi_push, app_secret),
+    {ok, PkgName} = application:get_env(xiaomi_push, pkg_name),
+    Query = #{<<"restricted_package_name">> => list_to_binary(PkgName),
+              <<"registration_id">> => list_to_binary(?REGID)
+             },
+    xiaomi_push:all_topic(AppSecret, Query).
