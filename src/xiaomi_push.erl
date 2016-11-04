@@ -36,12 +36,11 @@
 -define(SUCCESS, 0).
 
 gen_authorization(AppSecret) ->
-    <<"key=", (list_to_binary(AppSecret))/binary>>.
+    <<"key=", (eutil:to_binary(AppSecret))/binary>>.
 
 gen_headers(AppSecret) ->
     Auth = gen_authorization(AppSecret),
-    [{<<"Content-Type">>, <<"application/x-www-form-urlencoded; charset=utf-8">>},
-     {<<"Authorization">>, Auth}].
+    [?URLENCEDED_HEAD, {<<"Authorization">>, Auth}].
 
 gen_get_headers(AppSecret) ->
     Auth = gen_authorization(AppSecret),
