@@ -83,11 +83,11 @@ regid_pass_through(RegIds, Payload) ->
     regid_pass_through(AppSecret, PkgName, RegIds, Payload).
 
 regid_pass_through(AppSecret, PkgName, RegIds, Payload) ->
-    MsgMaps = #{<<"restricted_package_name">> => list_to_binary(PkgName),
+    MsgMaps = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
                 <<"pass_through">> => 1,
                 <<"payload">> => Payload,
                 <<"extra.notify_effect">> => 1,
-                <<"registration_id">> => list_to_binary(RegIds)
+                <<"registration_id">> => eutil:to_binary(RegIds)
                },
     regid_message(AppSecret, MsgMaps).
 
@@ -117,7 +117,7 @@ all_notificaiton(Title, Desc) ->
     all_notificaiton(AppSecret, PkgName, Title, Desc).
 
 all_notificaiton(AppSecret, PkgName, Title, Desc) ->
-    MsgMaps = #{<<"restricted_package_name">> => list_to_binary(PkgName),
+    MsgMaps = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
                 <<"pass_through">> => 0,
                 <<"title">> => unicode:characters_to_binary(Title),
                 <<"description">> => unicode:characters_to_binary(Desc),
@@ -131,7 +131,7 @@ all_pass_through(Payload) ->
     all_pass_through(AppSecret, PkgName, Payload).
 
 all_pass_through(AppSecret, PkgName, Payload) ->
-    MsgMaps = #{<<"restricted_package_name">> => list_to_binary(PkgName),
+    MsgMaps = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
                 <<"pass_through">> => 1,
                 <<"payload">> => Payload,
                 <<"notify_type">> => -1,
@@ -154,13 +154,13 @@ topic_notification(Topic, Title, Desc) ->
     topic_notification(AppSecret, PkgName, Topic, Title, Desc).
 
 topic_notification(AppSecret, PkgName, Topic, Title, Desc) ->
-    MsgMaps = #{<<"restricted_package_name">> => list_to_binary(PkgName),
+    MsgMaps = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
                 <<"pass_through">> => 0,
                 <<"title">> => unicode:characters_to_binary(Title),
                 <<"description">> => unicode:characters_to_binary(Desc),
                 <<"notify_type">> => -1,
                 <<"extra.notify_effect">> => 1,
-                <<"topic">> => list_to_binary(Topic)
+                <<"topic">> => eutil:to_binary(Topic)
                },
     topic_message(AppSecret, MsgMaps).
 
@@ -170,12 +170,12 @@ topic_pass_through(Topic, Payload) ->
     topic_pass_through(AppSecret, PkgName, Topic, Payload).
 
 topic_pass_through(AppSecret, PkgName, Topic, Payload) ->
-    MsgMaps = #{<<"restricted_package_name">> => list_to_binary(PkgName),
+    MsgMaps = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
                 <<"pass_through">> => 1,
                 <<"payload">> => Payload,
                 <<"notify_type">> => -1,
                 <<"extra.notify_effect">> => 1,
-                <<"topic">> => list_to_binary(Topic)
+                <<"topic">> => eutil:to_binary(Topic)
                },
     topic_message(AppSecret, MsgMaps).
 
@@ -187,9 +187,9 @@ regid_subscribe(RegId, Topic) ->
     regid_subscribe(AppSecret, PkgName, RegId, Topic).
 
 regid_subscribe(AppSecret, PkgName, RegId, Topic) ->
-    MsgMaps = #{<<"restricted_package_name">> => list_to_binary(PkgName),
-                <<"registration_id">> => list_to_binary(RegId),
-                <<"topic">> => list_to_binary(Topic)},
+    MsgMaps = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
+                <<"registration_id">> => eutil:to_binary(RegId),
+                <<"topic">> => eutil:to_binary(Topic)},
 	URL = <<"https://api.xmpush.xiaomi.com/v2/topic/subscribe">>,
     send(AppSecret, URL, MsgMaps).
 
@@ -200,9 +200,9 @@ regid_unsubscribe(RegId, Topic) ->
     regid_unsubscribe(AppSecret, PkgName, RegId, Topic).
 
 regid_unsubscribe(AppSecret, PkgName, RegId, Topic) ->
-    MsgMaps = #{<<"restricted_package_name">> => list_to_binary(PkgName),
-                <<"registration_id">> => list_to_binary(RegId),
-                <<"topic">> => list_to_binary(Topic)},
+    MsgMaps = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
+                <<"registration_id">> => eutil:to_binary(RegId),
+                <<"topic">> => eutil:to_binary(Topic)},
     URL = <<"https://api.xmpush.xiaomi.com/v2/topic/unsubscribe">>,
     send(AppSecret, URL, MsgMaps).
 
@@ -213,9 +213,9 @@ message_status(StartDate, EndDate) ->
     message_status(AppSecret, PkgName, StartDate, EndDate).
 
 message_status(AppSecret, PkgName, StartDate, EndDate) ->
-    Query = #{<<"restricted_package_name">> => list_to_binary(PkgName),
-              <<"start_date">> => list_to_binary(StartDate),
-              <<"end_date">> => list_to_binary(EndDate)},
+    Query = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
+              <<"start_date">> => eutil:to_binary(StartDate),
+              <<"end_date">> => eutil:to_binary(EndDate)},
     URL = <<"https://api.xmpush.xiaomi.com/v1/stats/message/counters">>,
     Headers = gen_get_headers(AppSecret),
     Result = eutil:http_get(URL, Headers, Query, [{pool, xiaomi}]),
@@ -233,7 +233,7 @@ trace_status(MsgId) ->
     trace_status(AppSecret, PkgName, MsgId).
 
 trace_status(AppSecret, PkgName, MsgId) ->
-    Query = #{<<"restricted_package_name">> => list_to_binary(PkgName),
+    Query = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
               <<"msg_id">> => eutil:to_binary(MsgId)},
     URL = <<"https://api.xmpush.xiaomi.com/v1/trace/message/status">>,
     Headers = gen_get_headers(AppSecret),
