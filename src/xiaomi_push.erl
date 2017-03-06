@@ -65,14 +65,14 @@ regid_notification(RegIds, Title, Desc) ->
     regid_notification(AppSecret, PkgName, RegIds, Title, Desc).
 
 regid_notification(AppSecret, PkgName, RegIds, Title, Desc) ->
-    MsgMaps = #{<<"restricted_package_name">> => list_to_binary(PkgName),
+    MsgMaps = #{<<"restricted_package_name">> => eutil:to_binary(PkgName),
                 <<"pass_through">> => 0,
                 <<"title">> => unicode:characters_to_binary(Title),
                 <<"description">> => unicode:characters_to_binary(Desc),
                 <<"notify_type">> => -1,
                 <<"notify_id">> => erlang:system_time(second),
                 <<"extra.notify_effect">> => 1,
-                <<"registration_id">> => list_to_binary(RegIds)
+                <<"registration_id">> => eutil:to_binary(RegIds)
                },
     regid_message(AppSecret, MsgMaps).
 
