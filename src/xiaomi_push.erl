@@ -26,6 +26,8 @@
 
          all_topic/1, all_topic/2,
 
+         general_notification/5, general_app_msg/4,
+
          gen_authorization/1, gen_headers/1
         ]).
 
@@ -68,6 +70,7 @@ regid_notification(AppSecret, PkgName, RegIds, Title, Desc) ->
                 <<"title">> => unicode:characters_to_binary(Title),
                 <<"description">> => unicode:characters_to_binary(Desc),
                 <<"notify_type">> => -1,
+                <<"notify_id">> => erlang:system_time(second),
                 <<"extra.notify_effect">> => 1,
                 <<"registration_id">> => list_to_binary(RegIds)
                },
@@ -302,3 +305,10 @@ get_conf_pkg_name() ->
 get_conf_app_secret() ->
     {ok, AppSecret} = application:get_env(xiaomi_push, app_secret),
     AppSecret.
+
+
+general_notification(AppSecret, PkgName, RegIds, Title, Desc) ->
+    regid_notification(AppSecret, PkgName, RegIds, Title, Desc).
+
+general_app_msg(AppSecret, PkgName, RegIds, Msg) ->
+    regid_pass_through(AppSecret, PkgName, RegIds, Msg).
