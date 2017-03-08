@@ -6,8 +6,6 @@
   {applications,
    [kernel,
     stdlib,
-    lager,
-    jiffy,
     hackney,
     eutil
    ]},
