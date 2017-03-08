@@ -98,7 +98,7 @@ regid_messages(Messages) ->
 
 regid_messages(AppSecret, Messages) ->
     URL = <<"https://api.xmpush.xiaomi.com/v2/multi_messages/regids">>,
-    MsgMaps = #{<<"messages">> => jsone:encode(Messages)},
+    MsgMaps = #{<<"messages">> => eutil:json_encode(Messages)},
     send(AppSecret, URL, MsgMaps).
 
 
