@@ -286,16 +286,17 @@ send(AppSecret, URL, MsgMaps) ->
 
 send_for_headers(Headers, URL, MsgMaps) ->
     Result = eutil:http_post(URL, Headers, MsgMaps, [{pool, xiaomi}]),
-    #{<<"code">>:=Code} = Result,
+    #{<<"code">> := Code} = Result,
     case Code of
         ?SUCCESS ->
-            case maps:get(<<"data">>, Result, undefined) of
-                undefined -> ok;
-                Data -> {ok, maps:get(<<"id">>, Data)}
-            end;
+            %case maps:get(<<"data">>, Result, undefined) of
+            %    undefined -> ok;
+            %    Data -> {ok, maps:get(<<"id">>, Data)}
+            %end;
+            {ok, Result};
         _ ->
             ?ERROR_MSG("epush xiaomi error, URL: ~p, MsgMaps: ~p, Result: ~p", [URL, MsgMaps, Result]),
-            {error, Code}
+            {error, Result}
     end.
 
 get_conf_pkg_name() ->
