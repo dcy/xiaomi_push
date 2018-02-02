@@ -289,13 +289,9 @@ send_for_headers(Headers, URL, MsgMaps) ->
     #{<<"code">> := Code} = Result,
     case Code of
         ?SUCCESS ->
-            %case maps:get(<<"data">>, Result, undefined) of
-            %    undefined -> ok;
-            %    Data -> {ok, maps:get(<<"id">>, Data)}
-            %end;
             {ok, Result};
         _ ->
-            ?ERROR_MSG("epush xiaomi error, URL: ~p, MsgMaps: ~p, Result: ~p", [URL, MsgMaps, Result]),
+            error_logger:error_msg("epush xiaomi error, URL: ~p, MsgMaps: ~p, Result: ~p", [URL, MsgMaps, Result]),
             {error, Result}
     end.
 
